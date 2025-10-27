@@ -8,6 +8,23 @@ import p1Background from "../assets/p1.png";
 import bookSticker from "../assets/book-sticker.png";
 import gameSticker from "../assets/game-sticker.png";
 
+// Import بازی‌ها
+import mathImg from "../assets/math.png";
+import wordImg from "../assets/word.png";
+import quizImg from "../assets/quiz.png";
+import colorMatchImg from "../assets/colorMatch.png";
+import animalSoundsImg from "../assets/animalSounds.png";
+import shapePuzzleImg from "../assets/shapePuzzle.png";
+import countingFunImg from "../assets/countingFun.png";
+import memoryImg from "../assets/memory.png";
+import miniMusicBandImg from "../assets/miniMusicBand.png";
+import letterHuntImg from "../assets/letterHunt.png";
+import simpleMazeImg from "../assets/simpleMaze.png";
+import fruitPickerImg from "../assets/fruitPicker.png";
+import miniPainterImg from "../assets/miniPainter.png";
+import moneySmartImg from "../assets/moneySmart.png";
+import weatherWonderImg from "../assets/weatherWonder.png";
+
 const useLanguage = () => {
   const t = (key) => {
     const translations = {
@@ -32,21 +49,21 @@ export default function Dashboard({ darkMode, setDarkMode }) {
   const navigate = useNavigate();
 
   const games = [
-    { id: "math", name: t("mathGame"), description: t("mathGameDesc"), image: "/src/assets/math.png", color: "from-purple-400 to-purple-600" },
-    { id: "word", name: t("wordGame"), description: t("wordGameDesc"), image: "/src/assets/word.png", color: "from-yellow-400 to-yellow-600" },
-    { id: "quiz", name: t("quizGame"), description: t("quizGameDesc"), image: "/src/assets/quiz.png", color: "from-pink-400 to-pink-600" },
-    { id: "colorMatch", name: "Color Match", description: "Learn colors by matching objects", image: "/src/assets/colorMatch.png", color: "from-red-400 to-red-600" },
-    { id: "animalSounds", name: "Animal Sounds", description: "Discover animals and their sounds", image: "/src/assets/animalSounds.png", color: "from-green-400 to-green-600" },
-    { id: "shapePuzzle", name: "Shape Puzzle", description: "Fit shapes into their correct places", image: "/src/assets/shapePuzzle.png", color: "from-blue-400 to-blue-600" },
-    { id: "countingFun", name: "Counting Fun", description: "Practice numbers with fun counting games", image: "/src/assets/countingFun.png", color: "from-yellow-400 to-yellow-600" },
-    { id: "memoryCards", name: "Memory Match", description: "Boost memory skills with matching cards", image: "/src/assets/memory.png", color: "from-purple-400 to-purple-600" },
-    { id: "miniMusicBand", name: "Mini Music Band", description: "Play simple instruments and learn rhythm", image: "/src/assets/miniMusicBand.png", color: "from-pink-400 to-pink-600" },
-    { id: "letterHunt", name: "Letter Hunt", description: "Find hidden letters and improve your alphabet", image: "/src/assets/letterHunt.png", color: "from-orange-400 to-orange-600" },
-    { id: "simpleMaze", name: "Simple Maze", description: "Guide the character to the finish line", image: "/src/assets/simpleMaze.png", color: "from-teal-400 to-teal-600" },
-    { id: "fruitPicker", name: "Fruit Picker", description: "Collect fruits and learn their names", image: "/src/assets/fruitPicker.png", color: "from-red-300 to-red-500" },
-    { id: "miniPainter", name: "Mini Painter", description: "Color shapes and pictures creatively", image: "/src/assets/miniPainter.png", color: "from-purple-300 to-purple-500" },
-    { id: "moneySmart", name: "Money Smart", description: "Learn about money, counting coins, and making simple purchases", image: "/src/assets/moneySmart.png", color: "from-amber-400 to-amber-600" },
-    { id: "weatherWonder", name: "Weather Wonder", description: "Explore weather types and choose suitable clothes", image: "/src/assets/weatherWonder.png", color: "from-sky-400 to-sky-600" }
+    { id: "math", name: t("mathGame"), description: t("mathGameDesc"), image: mathImg, color: "from-purple-400 to-purple-600" },
+    { id: "word", name: t("wordGame"), description: t("wordGameDesc"), image: wordImg, color: "from-yellow-400 to-yellow-600" },
+    { id: "quiz", name: t("quizGame"), description: t("quizGameDesc"), image: quizImg, color: "from-pink-400 to-pink-600" },
+    { id: "colorMatch", name: "Color Match", description: "Learn colors by matching objects", image: colorMatchImg, color: "from-red-400 to-red-600" },
+    { id: "animalSounds", name: "Animal Sounds", description: "Discover animals and their sounds", image: animalSoundsImg, color: "from-green-400 to-green-600" },
+    { id: "shapePuzzle", name: "Shape Puzzle", description: "Fit shapes into their correct places", image: shapePuzzleImg, color: "from-blue-400 to-blue-600" },
+    { id: "countingFun", name: "Counting Fun", description: "Practice numbers with fun counting games", image: countingFunImg, color: "from-yellow-400 to-yellow-600" },
+    { id: "memoryCards", name: "Memory Match", description: "Boost memory skills with matching cards", image: memoryImg, color: "from-purple-400 to-purple-600" },
+    { id: "miniMusicBand", name: "Mini Music Band", description: "Play simple instruments and learn rhythm", image: miniMusicBandImg, color: "from-pink-400 to-pink-600" },
+    { id: "letterHunt", name: "Letter Hunt", description: "Find hidden letters and improve your alphabet", image: letterHuntImg, color: "from-orange-400 to-orange-600" },
+    { id: "simpleMaze", name: "Simple Maze", description: "Guide the character to the finish line", image: simpleMazeImg, color: "from-teal-400 to-teal-600" },
+    { id: "fruitPicker", name: "Fruit Picker", description: "Collect fruits and learn their names", image: fruitPickerImg, color: "from-red-300 to-red-500" },
+    { id: "miniPainter", name: "Mini Painter", description: "Color shapes and pictures creatively", image: miniPainterImg, color: "from-purple-300 to-purple-500" },
+    { id: "moneySmart", name: "Money Smart", description: "Learn about money, counting coins, and making simple purchases", image: moneySmartImg, color: "from-amber-400 to-amber-600" },
+    { id: "weatherWonder", name: "Weather Wonder", description: "Explore weather types and choose suitable clothes", image: weatherWonderImg, color: "from-sky-400 to-sky-600" }
   ];
 
   const startGame = (game) => {
@@ -135,7 +152,6 @@ export default function Dashboard({ darkMode, setDarkMode }) {
           ))}
         </div>
 
-  
         {/* نوشته‌های پایین */}
         <div className="flex flex-col items-center mt-8 mb-6 text-center space-y-2">
           <p className="text-sm font-extrabold text-white drop-shadow-sm">🎯 Click on any topic to start learning!</p>

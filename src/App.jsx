@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 
 // صفحات اصلی
 import Dashboard from "./pages/Dashboard";
@@ -19,26 +19,24 @@ function App() {
   }, [darkMode]);
 
   return (
-    <BrowserRouter>
-      <div className="min-h-screen w-full transition-colors duration-500 text-white flex flex-col">
-        <Routes>
-          {/* داشبورد */}
-          <Route
-            path="/"
-            element={<Dashboard darkMode={darkMode} setDarkMode={setDarkMode} />}
-          />
+    <div className="min-h-screen w-full transition-colors duration-500 text-white flex flex-col">
+      <Routes>
+        {/* داشبورد */}
+        <Route
+          path="/"
+          element={<Dashboard darkMode={darkMode} setDarkMode={setDarkMode} />}
+        />
 
-          {/* بازی‌ها */}
-          <Route path="/game/:id" element={<GamePage />} />
+        {/* بازی‌ها */}
+        <Route path="/game/:id" element={<GamePage />} />
 
-          {/* صفحات فوتر */}
-          <Route path="/privacy" element={<PrivacyPolicy />} />
-          <Route path="/terms" element={<TermsOfService />} />
-          <Route path="/about" element={<AboutUs />} />
-          <Route path="/contact" element={<ContactUs />} />
-        </Routes>
-      </div>
-    </BrowserRouter>
+        {/* صفحات فوتر */}
+        <Route path="/privacy" element={<PrivacyPolicy />} />
+        <Route path="/terms" element={<TermsOfService />} />
+        <Route path="/about" element={<AboutUs />} />
+        <Route path="/contact" element={<ContactUs />} />
+      </Routes>
+    </div>
   );
 }
 
