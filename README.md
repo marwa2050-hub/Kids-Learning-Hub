@@ -1,18 +1,11 @@
-# React + Vite
+Kids-Learning-Hub
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Live Demo
+Check out the live version of my app here: [Live Demo](https://marwa2050-hub.github.io/Kids-Learning-Hub/)
 
-Currently, two official plugins are available:
+GitHub Repository Link
+https://github.com/marwa2050-hub/Kids-Learning-Hub
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## React Compiler
-
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
-
-Note: This will impact Vite dev & build performances.
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Brief Reflection
+During the development of the Kids Learning Hub, I gained valuable experience in creating an interactive and educational web application tailored for children. This project allowed me to integrate React with modern libraries such as React Router and Confetti, while focusing on responsive design and multilingual support. I learned how to manage assets efficiently, handle state with hooks, and structure components for scalability. Implementing features like educational games, language selection, and a dynamic dashboard taught me the importance of user experience and accessibility, especially for younger audiences. Overall, this project strengthened my problem-solving skills, attention to detail, and ability to translate design ideas into functional code. I am proud of creating a platform that combines learning with fun, and it has motivated me to explore more advanced interactive web applications in the future.
