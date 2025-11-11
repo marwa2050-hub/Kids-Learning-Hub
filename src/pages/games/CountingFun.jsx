@@ -37,10 +37,14 @@ export default function CountingFun() {
   const [particles, setParticles] = useState([]);
   const [rabbitReaction, setRabbitReaction] = useState("idle");
   const [timer, setTimer] = useState(10);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 1024);
   const [windowSize, setWindowSize] = useState({ width: window.innerWidth, height: window.innerHeight });
 
   useEffect(() => {
-    const handleResize = () => setWindowSize({ width: window.innerWidth, height: window.innerHeight });
+    const handleResize = () => {
+      setWindowSize({ width: window.innerWidth, height: window.innerHeight });
+      setIsMobile(window.innerWidth <= 1024);
+    };
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
@@ -100,7 +104,7 @@ export default function CountingFun() {
   };
 
   const topButtonStyle = {
-    padding: "8px 14px",
+    padding: isMobile ? "6px 10px" : "10px 16px",
     borderRadius: "12px",
     color: "#fff",
     border: "none",
@@ -108,7 +112,7 @@ export default function CountingFun() {
     fontWeight: "bold",
     background: "inherit",
     boxShadow: "0 0 10px rgba(0,0,0,0.3)",
-    fontSize: "0.9rem",
+    fontSize: isMobile ? "0.8rem" : "0.95rem",
   };
 
   return (
@@ -123,12 +127,10 @@ export default function CountingFun() {
       }}
     >
       {showConfetti && <Confetti width={windowSize.width} height={windowSize.height} recycle={false} numberOfPieces={150} />}
-      {particles.map((p, i) => (
-        <Particle key={i} {...p} />
-      ))}
+      {particles.map((p, i) => <Particle key={i} {...p} />)}
 
       {/* زبان‌ها */}
-      <div style={{ position: "absolute", top: "12px", left: "12px", display: "flex", gap: "8px", zIndex: 10, flexWrap: "wrap" }}>
+      <div style={{ position: "absolute", top: "12px", left: "12px", display: "flex", flexDirection: isMobile ? "column" : "row", gap: isMobile ? "8px" : "10px", zIndex: 10 }}>
         <button style={topButtonStyle} onClick={() => setLang("fa")}>دری</button>
         <button style={topButtonStyle} onClick={() => setLang("ps")}>پشتو</button>
         <button style={topButtonStyle} onClick={() => setLang("en")}>English</button>
@@ -136,12 +138,7 @@ export default function CountingFun() {
 
       {/* دکمه بازگشت */}
       <button
-        style={{
-          ...topButtonStyle,
-          position: "absolute",
-          top: "12px",
-          right: "12px",
-        }}
+        style={{ ...topButtonStyle, position: "absolute", top: "12px", right: "12px" }}
         onClick={() => window.history.back()}
       >
         ⬅ Back
@@ -150,18 +147,18 @@ export default function CountingFun() {
       <div
         style={{
           display: "flex",
-          flexDirection: windowSize.width < 768 ? "column" : "row",
+          flexDirection: isMobile ? "column" : "row",
           width: "100%",
           maxWidth: "960px",
           alignItems: "center",
           justifyContent: "center",
-          gap: "15px",
+          gap: isMobile ? "12px" : "20px",
         }}
       >
         {/* بخش اصلی */}
         <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", width: "100%" }}>
           <div style={cardLightStyle} className="softPulse">
-            <h1 style={{ fontSize: windowSize.width < 768 ? "1.8rem" : "2.3rem", fontWeight: "bold", margin: 0, textShadow: "2px 2px 6px rgba(0,0,0,0.3)" }}>
+            <h1 style={{ fontSize: isMobile ? "1.6rem" : "2.3rem", fontWeight: "bold", margin: 0, textShadow: "2px 2px 6px rgba(0,0,0,0.3)" }}>
               🔢 {translations[lang].title}
             </h1>
           </div>
@@ -169,11 +166,11 @@ export default function CountingFun() {
           <h2
             style={{
               ...cardLightStyle,
-              padding: "10px 20px",
+              padding: isMobile ? "8px 12px" : "12px 25px",
               maxWidth: "90%",
               textAlign: lang === "fa" || lang === "ps" ? "right" : "center",
               direction: lang === "fa" || lang === "ps" ? "rtl" : "ltr",
-              fontSize: windowSize.width < 768 ? "1.1rem" : "1.5rem",
+              fontSize: isMobile ? "1rem" : "1.5rem",
               marginTop: "10px",
             }}
           >
@@ -183,12 +180,12 @@ export default function CountingFun() {
           <div
             style={{
               ...cardLightStyle,
-              fontSize: windowSize.width < 768 ? "1.2rem" : "1.6rem",
+              fontSize: isMobile ? "1rem" : "1.6rem",
               fontWeight: "bold",
               margin: "10px 0",
               display: "flex",
               alignItems: "center",
-              gap: "10px",
+              gap: "8px",
               flexWrap: "wrap",
               justifyContent: "center",
             }}
@@ -205,9 +202,9 @@ export default function CountingFun() {
                 onClick={() => handleAnswer(n)}
                 style={{
                   ...cardLightStyle,
-                  padding: windowSize.width < 768 ? "10px 18px" : "12px 22px",
+                  padding: isMobile ? "8px 16px" : "12px 22px",
                   borderRadius: "20px",
-                  fontSize: windowSize.width < 768 ? "1.2rem" : "1.5rem",
+                  fontSize: isMobile ? "1rem" : "1.5rem",
                   cursor: "pointer",
                   fontWeight: "bold",
                   minWidth: "60px",
@@ -222,7 +219,7 @@ export default function CountingFun() {
             <div
               style={{
                 ...cardLightStyle,
-                fontSize: windowSize.width < 768 ? "1.2rem" : "1.6rem",
+                fontSize: isMobile ? "1rem" : "1.6rem",
                 textAlign: "center",
                 maxWidth: "90%",
                 margin: "0 auto",
@@ -240,8 +237,8 @@ export default function CountingFun() {
             src={countingScene}
             alt="Counting Scene"
             style={{
-              width: windowSize.width < 768 ? "85%" : "100%",
-              maxHeight: windowSize.width < 768 ? "220px" : "85%",
+              width: isMobile ? "85%" : "100%",
+              maxHeight: isMobile ? "200px" : "85%",
               objectFit: "contain",
               borderRadius: "20px",
               boxShadow: "0 10px 20px rgba(0,0,0,0.5)",
@@ -250,23 +247,25 @@ export default function CountingFun() {
         </div>
       </div>
 
-      {/* خرگوش */}
-      <div style={{ position: "absolute", bottom: "15px", left: "15px", width: windowSize.width < 768 ? "80px" : "120px", height: "auto" }}>
-        <img
-          src={rabbitImg}
-          alt="Rabbit"
-          style={{
-            width: "100%",
-            transform:
-              rabbitReaction === "happy"
-                ? "translateY(-20px) rotate(-10deg)"
-                : rabbitReaction === "sad"
-                ? "translateY(0) rotate(10deg)"
-                : "translateY(0) rotate(0deg)",
-            transition: "all 0.3s",
-          }}
-        />
-      </div>
+      {/* خرگوش فقط برای لپ‌تاپ */}
+      {!isMobile && (
+        <div style={{ position: "absolute", bottom: "15px", left: "15px", width: "120px", height: "120px" }}>
+          <img
+            src={rabbitImg}
+            alt="Rabbit"
+            style={{
+              width: "100%",
+              transform:
+                rabbitReaction === "happy"
+                  ? "translateY(-20px) rotate(-10deg)"
+                  : rabbitReaction === "sad"
+                  ? "translateY(0) rotate(10deg)"
+                  : "translateY(0) rotate(0deg)",
+              transition: "all 0.3s",
+            }}
+          />
+        </div>
+      )}
 
       <style>{`
         @keyframes floatUp {0%{opacity:1;transform:translateY(0) rotate(0deg)}100%{opacity:0;transform:translateY(-50px) rotate(360deg)}}

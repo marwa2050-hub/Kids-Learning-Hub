@@ -1,0 +1,9 @@
+name = "kids-learning-hub-api"
+type = "javascript"
+account_id = "124f5dc6b7959b89a74e8583dbdd1c96"
+workers_dev = true
+compatibility_date = "2025-11-08"
+
+[[kv_namespaces]]
+binding = "STORIES_KV"
+id = "a0ab16f1477540f3a06031c6491830db"

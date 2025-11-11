@@ -30,6 +30,7 @@ function Particle({ x, y, emoji }) {
 
 export default function LetterHunt() {
   const [windowSize, setWindowSize] = useState({ width: window.innerWidth, height: window.innerHeight });
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 1024);
   const [score, setScore] = useState(0);
   const [level, setLevel] = useState(1);
   const [currentLetter, setCurrentLetter] = useState("");
@@ -40,7 +41,10 @@ export default function LetterHunt() {
   const [timer, setTimer] = useState(10);
 
   useEffect(() => {
-    const handleResize = () => setWindowSize({ width: window.innerWidth, height: window.innerHeight });
+    const handleResize = () => {
+      setWindowSize({ width: window.innerWidth, height: window.innerHeight });
+      setIsMobile(window.innerWidth <= 1024);
+    };
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
@@ -88,8 +92,10 @@ export default function LetterHunt() {
     setTimeout(generateLetter, 1200);
   };
 
+  useEffect(() => { generateLetter(); }, [lang]);
+
   const topButtonStyle = {
-    padding: '10px 14px',
+    padding: isMobile ? '6px 10px' : '10px 14px',
     borderRadius: '10px',
     color: '#fff',
     border: 'none',
@@ -97,22 +103,18 @@ export default function LetterHunt() {
     fontWeight: 'bold',
     boxShadow: '0 0 8px rgba(0,0,0,0.3)',
     background: 'inherit',
-    fontSize: '0.9rem'
+    fontSize: isMobile ? '0.8rem' : '0.9rem'
   };
 
   const cardLightStyle = {
     background: "inherit",
     boxShadow: "0 0 25px rgba(255,255,255,0.5), inset 0 0 15px rgba(255,255,255,0.3)",
     borderRadius: "25px",
-    padding: "12px 30px",
+    padding: isMobile ? "10px 20px" : "12px 30px",
     textAlign: "center",
     fontWeight: "bold",
     color: "#fff"
   };
-
-  useEffect(() => { generateLetter(); }, [lang]);
-
-  const isMobile = windowSize.width < 768;
 
   return (
     <div style={{
@@ -135,12 +137,12 @@ export default function LetterHunt() {
       {/* Language Buttons */}
       <div style={{
         position: "absolute",
-        top: "10px",
-        left: "10px",
+        top: "12px",
+        left: "12px",
         display: "flex",
-        gap: "8px",
-        zIndex: 10,
-        flexWrap: "wrap"
+        flexDirection: isMobile ? "column" : "row",
+        gap: isMobile ? "6px" : "8px",
+        zIndex: 10
       }}>
         <button style={topButtonStyle} onClick={() => setLang("fa")}>دری</button>
         <button style={topButtonStyle} onClick={() => setLang("ps")}>پشتو</button>
@@ -150,8 +152,8 @@ export default function LetterHunt() {
       <button style={{
         ...topButtonStyle,
         position: "absolute",
-        top: "10px",
-        right: "10px"
+        top: "12px",
+        right: "12px"
       }} onClick={() => window.history.back()}>⬅ Back</button>
 
       <div style={{
@@ -161,68 +163,28 @@ export default function LetterHunt() {
         justifyContent: "center",
         width: "100%",
         maxWidth: "960px",
-        gap: "15px",
+        gap: isMobile ? "12px" : "20px",
         marginTop: isMobile ? "60px" : "0"
       }}>
         {/* Main Section */}
-        <div style={{
-          flex: 1,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          marginTop: isMobile ? "20px" : "50px"
-        }}>
+        <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", marginTop: isMobile ? "20px" : "50px" }}>
           <div style={cardLightStyle}>
-            <h1 style={{ fontSize: isMobile ? "1.8rem" : "2.3rem", margin: 0, textShadow: "2px 2px 6px rgba(0,0,0,0.3)" }}>
+            <h1 style={{ fontSize: isMobile ? "1.8rem" : "2.3rem", margin:0, textShadow:"2px 2px 6px rgba(0,0,0,0.3)" }}>
               🔤 {translations[lang].title}
             </h1>
           </div>
 
-          <h2 style={{
-            ...cardLightStyle,
-            padding: '10px 18px',
-            maxWidth: '90%',
-            fontSize: isMobile ? '1.1rem' : '1.5rem',
-            margin: '15px 0',
-            textAlign: lang === 'fa' || lang === 'ps' ? 'right' : 'center',
-            direction: lang === 'fa' || lang === 'ps' ? 'rtl' : 'ltr'
-          }}>
+          <h2 style={{ ...cardLightStyle, padding:isMobile?"10px 18px":"12px 25px", fontSize:isMobile?"1.1rem":"1.5rem", margin:"15px 0", maxWidth:"90%", textAlign: lang==='fa'||lang==='ps'?'right':'center', direction: lang==='fa'||lang==='ps'?'rtl':'ltr' }}>
             {translations[lang].score}: {score} | {translations[lang].level}: {level} | ⏱ {timer}s
           </h2>
 
-          <div style={{
-            ...cardLightStyle,
-            fontSize: isMobile ? "1.2rem" : "1.6rem",
-            fontWeight: "bold",
-            marginBottom: "15px",
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: '12px',
-            padding: '15px 28px'
-          }}>
-            <span style={{ fontSize: isMobile ? '1.6rem' : '2rem' }}>{currentLetter}</span>
+          <div style={{ ...cardLightStyle, fontSize: isMobile ? "1.2rem" : "1.6rem", fontWeight:"bold", marginBottom:"15px", display:'flex', alignItems:'center', justifyContent:'center', gap:'12px', padding:isMobile?"12px 20px":"15px 28px" }}>
+            <span style={{ fontSize:isMobile?"1.6rem":"2rem" }}>{currentLetter}</span>
           </div>
 
-          <div style={{
-            display: "flex",
-            flexWrap: "wrap",
-            gap: isMobile ? "6px" : "12px",
-            justifyContent: "center",
-            marginBottom: "15px"
-          }}>
-            {lettersByLang[lang].map((l, i) => (
-              <button
-                key={i}
-                onClick={() => checkLetter(l)}
-                style={{
-                  ...cardLightStyle,
-                  padding: isMobile ? '8px 10px' : '10px 18px',
-                  borderRadius: '20px',
-                  fontSize: isMobile ? '0.9rem' : '1rem',
-                  cursor: 'pointer'
-                }}
-              >
+          <div style={{ display:'flex', flexWrap:'wrap', gap:isMobile?"6px":"12px", justifyContent:'center', marginBottom:"15px" }}>
+            {lettersByLang[lang].map((l,i)=>(
+              <button key={i} onClick={()=>checkLetter(l)} style={{ ...cardLightStyle, padding:isMobile?"8px 10px":"10px 18px", borderRadius:'20px', fontSize:isMobile?"0.9rem":"1rem", cursor:'pointer'}}>
                 {l}
               </button>
             ))}
@@ -230,54 +192,22 @@ export default function LetterHunt() {
         </div>
 
         {/* Right Image */}
-        <div style={{
-          flex: 1,
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          marginTop: isMobile ? "20px" : "0"
-        }}>
-          <img
-            src={lettersScene}
-            alt="Letters Scene"
-            style={{
-              width: isMobile ? "80%" : "400px",
-              maxHeight: isMobile ? "200px" : "85%",
-              objectFit: "contain",
-              borderRadius: "20px",
-              boxShadow: "0 10px 20px rgba(0,0,0,0.5)"
-            }}
-          />
+        <div style={{ flex:1, display:"flex", justifyContent:"center", alignItems:"center", marginTop:isMobile?"20px":"0" }}>
+          <img src={lettersScene} alt="Letters Scene" style={{ width:isMobile?"80%":"400px", maxHeight:isMobile?"200px":"85%", objectFit:"contain", borderRadius:"20px", boxShadow:"0 10px 20px rgba(0,0,0,0.5)"}}/>
         </div>
       </div>
 
       {/* Rabbit */}
-      <div style={{
-        position: "absolute",
-        bottom: "15px",
-        left: "15px",
-        width: isMobile ? "80px" : "120px",
-        height: isMobile ? "80px" : "120px"
-      }}>
-        <img
-          src={rabbitImg}
-          alt="Rabbit"
-          style={{
-            width: "100%",
-            height: "100%",
-            transform:
-              rabbitReaction === 'happy' ? 'translateY(-20px) rotate(-10deg)' :
-              rabbitReaction === 'sad' ? 'translateY(0) rotate(10deg)' :
-              'translateY(0) rotate(0deg)',
-            transition: "all 0.3s"
-          }}
-        />
-      </div>
+      {!isMobile && (
+        <div style={{ position:"absolute", bottom:"15px", left:"15px", width:"120px", height:"120px" }}>
+          <img src={rabbitImg} alt="Rabbit" style={{ width:"100%", height:"100%", transform:rabbitReaction==='happy'?'translateY(-20px) rotate(-10deg)':rabbitReaction==='sad'?'translateY(0) rotate(10deg)':'translateY(0) rotate(0deg)', transition:"all 0.3s"}}/>
+        </div>
+      )}
 
       <style>{`
         @keyframes floatUp {
-          0% { opacity: 1; transform: translateY(0) rotate(0deg) }
-          100% { opacity: 0; transform: translateY(-50px) rotate(360deg) }
+          0% { opacity:1; transform:translateY(0) rotate(0deg) }
+          100% { opacity:0; transform:translateY(-50px) rotate(360deg) }
         }
       `}</style>
     </div>

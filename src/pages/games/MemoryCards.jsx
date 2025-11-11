@@ -35,6 +35,7 @@ function Particle({ x, y, emoji }) {
 
 export default function MemoryCards() {
   const [windowSize, setWindowSize] = useState({ width: window.innerWidth, height: window.innerHeight });
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 1024);
   const [score, setScore] = useState(0);
   const [level, setLevel] = useState(1);
   const [cards, setCards] = useState([]);
@@ -46,7 +47,10 @@ export default function MemoryCards() {
   const [rabbitReaction, setRabbitReaction] = useState("idle");
 
   useEffect(() => {
-    const handleResize = () => setWindowSize({ width: window.innerWidth, height: window.innerHeight });
+    const handleResize = () => {
+      setWindowSize({ width: window.innerWidth, height: window.innerHeight });
+      setIsMobile(window.innerWidth <= 1024);
+    };
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
@@ -82,8 +86,6 @@ export default function MemoryCards() {
   };
 
   const cardStyle = {
-    width: "68px",
-    height: "68px",
     borderRadius: "20px",
     display: "flex",
     justifyContent: "center",
@@ -104,31 +106,36 @@ export default function MemoryCards() {
   };
 
   const topButtonStyle = {
-    padding:'10px 16px',
+    padding: isMobile ? "6px 10px" : "10px 16px",
     borderRadius:'12px',
     color:'#fff',
     border:'none',
     cursor:'pointer',
     fontWeight:'bold',
     boxShadow:'0 0 10px rgba(0,0,0,0.3)',
-    backgroundColor:'inherit'
+    backgroundColor:'inherit',
+    fontSize: isMobile ? "0.8rem" : "0.95rem"
   };
 
   return (
     <div style={{
       background: "linear-gradient(135deg,#4e54c8,#8f94fb)",
       width: "100vw",
-      height: "100vh",
+      minHeight: "100vh",
       fontFamily: "'Comic Sans MS','Chalkboard SE','Comic Neue','Marker Felt','Arial Rounded MT Bold','Helvetica Rounded',Arial,sans-serif",
       color: "#fff",
       position: "relative",
-      overflow: "hidden"
+      overflow: "hidden",
+      display:"flex",
+      justifyContent:"center",
+      alignItems:"center",
+      padding:isMobile?"6px":"12px"
     }}>
       {showConfetti && <Confetti width={windowSize.width} height={windowSize.height} recycle={false} numberOfPieces={150} />}
       {particles.map((p,i)=><Particle key={i} {...p} />)}
 
-      {/* دکمه‌ها بالا */}
-      <div style={{ position:'absolute', top:'15px', left:'15px', display:'flex', gap:'10px', zIndex:10 }}>
+      {/* دکمه‌های زبان */}
+      <div style={{ position:'absolute', top:'15px', left:'15px', display:'flex', flexDirection:isMobile?"column":"row", gap:isMobile?"8px":"10px", zIndex:10 }}>
         <button style={topButtonStyle} onClick={()=>setLang('fa')}>دری</button>
         <button style={topButtonStyle} onClick={()=>setLang('ps')}>پشتو</button>
         <button style={topButtonStyle} onClick={()=>setLang('en')}>English</button>
@@ -136,121 +143,51 @@ export default function MemoryCards() {
       <button style={{ ...topButtonStyle, position:'absolute', top:'15px', right:'15px' }} onClick={()=>window.history.back()}>⬅ Back</button>
 
       {/* بخش اصلی */}
-      <div style={{ display:"flex", width:"100%", maxWidth:"960px", gap:"15px", margin:"0 auto", marginTop:"80px", alignItems:"flex-start" }}>
-        {/* سمت چپ: بازی */}
-        <div style={{ flex:1, display:"flex", flexDirection:"column", alignItems:"center", gap:"15px" }}>
-          
-          {/* کارت عنوان */}
+      <div style={{
+        display:"flex",
+        flexDirection: isMobile ? "column" : "row",
+        width:"100%",
+        maxWidth:"960px",
+        alignItems:"center",
+        justifyContent:"center",
+        gap:isMobile?"12px":"15px"
+      }}>
+        {/* سمت چپ */}
+        <div style={{ flex:1, display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", width:"100%" }}>
           <div style={cardLightStyle} className="softPulse">
-            <h1 style={{ fontSize:'2.3rem', fontWeight:'bold', margin:0, color:"#fff", textShadow:"2px 2px 6px rgba(0,0,0,0.3)" }}>
-              🃏 {translations[lang].title}
-            </h1>
+            <h1 style={{ fontSize: isMobile ? "1.6rem" : "2.3rem", fontWeight:'bold', margin:0, textShadow:"2px 2px 6px rgba(0,0,0,0.3)" }}>🃏 {translations[lang].title}</h1>
           </div>
 
-          {/* کارت امتیاز و سطح */}
-          <h2 style={{
-            ...cardLightStyle,
-            padding:"12px 25px",
-            maxWidth:"80%",
-            textAlign: lang==="fa"||lang==="ps"?"right":"center",
-            direction: lang==="fa"||lang==="ps"?"rtl":"ltr",
-            fontSize:"1.5rem",
-            margin:"0 0 15px 0"
-          }}>
+          <h2 style={{ ...cardLightStyle, padding: isMobile ? "8px 12px" : "12px 25px", fontSize:isMobile?"1rem":"1.5rem", margin:"10px 0", textAlign: lang==="fa"||lang==="ps"?"right":"center", direction: lang==="fa"||lang==="ps"?"rtl":"ltr" }}>
             {translations[lang].score}: {score} | {translations[lang].level}: {level}
           </h2>
 
-          {/* کارت‌ها */}
-          <div style={{ display:"grid", gridTemplateColumns:"repeat(4,68px)", gap:"11px", justifyContent:"center" }}>
-            {cards.map(card => (
-              <div
-                key={card.id}
-                onClick={()=>handleFlip(card.id)}
-                style={{ 
-                  ...cardStyle,
-                  backgroundColor: flipped.includes(card.id) || matched.includes(card.id) ? "#FFD700" : "#111827"
-                }}
-              >
+          <div style={{ display:"grid", gridTemplateColumns: isMobile?"repeat(3,55px)":"repeat(4,68px)", gap:isMobile?"10px":"11px", justifyContent:"center" }}>
+            {cards.map(card=>(
+              <div key={card.id} onClick={()=>handleFlip(card.id)} style={{ ...cardStyle, width:isMobile?"55px":"68px", height:isMobile?"55px":"68px", fontSize:isMobile?"1.2rem":"1.6rem", backgroundColor: flipped.includes(card.id) || matched.includes(card.id) ? "#FFD700" : "#111827" }}>
                 {(flipped.includes(card.id) || matched.includes(card.id)) ? card.symbol : ""}
               </div>
             ))}
           </div>
-
         </div>
 
-        {/* سمت راست: تصویر ثابت */}
-        <div 
-          style={{ 
-            flex: '0 0 400px',
-            display:"flex", 
-            justifyContent:"center", 
-            alignItems:"flex-start", 
-            height: '400px'
-          }}
-        >
-          <img 
-            src={memoryScene} 
-            alt="Memory Scene" 
-            style={{ 
-              height: '400px', 
-              width: '400px', 
-              objectFit: 'contain', 
-              borderRadius:'20px', 
-              boxShadow:'0 10px 20px rgba(0,0,0,0.5)',
-              flexShrink: 0
-            }} 
-          />
+        {/* سمت راست تصویر */}
+        <div style={{ flex: isMobile?1:'0 0 400px', display:"flex", justifyContent:"center", alignItems:"flex-start", height:isMobile?"auto":'400px' }}>
+          <img src={memoryScene} alt="Memory Scene" style={{ width:isMobile?"85%":"400px", height:isMobile?"auto":"400px", objectFit:"contain", borderRadius:'20px', boxShadow:'0 10px 20px rgba(0,0,0,0.5)' }} />
         </div>
       </div>
 
-      {/* خرگوش پایین صفحه */}
-      <div style={{ position:'absolute', bottom:'15px', left:'15px', width:'120px', height:'120px' }}>
-        <img src={rabbitImg} alt="Rabbit" style={{ width:'100%', height:'100%', transform: rabbitReaction==='happy' ? 'translateY(-20px) rotate(-10deg)' : rabbitReaction==='sad' ? 'translateY(0) rotate(10deg)' : 'translateY(0) rotate(0deg)', transition:'all 0.3s' }}/>
-      </div>
+      {/* خرگوش فقط دسکتاپ */}
+      {!isMobile && (
+        <div style={{ position:'absolute', bottom:'15px', left:'15px', width:'120px', height:'120px' }}>
+          <img src={rabbitImg} alt="Rabbit" style={{ width:'100%', transform: rabbitReaction==='happy'?'translateY(-20px) rotate(-10deg)':rabbitReaction==='sad'?'translateY(0) rotate(10deg)':'translateY(0) rotate(0deg)', transition:'all 0.3s' }} />
+        </div>
+      )}
 
-      <style>
-      {`
-        @keyframes floatUp { 
-          0%{opacity:1; transform:translateY(0) rotate(0deg);} 
-          100%{opacity:0; transform:translateY(-50px) rotate(360deg);} 
-        }
-        @keyframes softPulse {
-          0%,100%{box-shadow:0 0 25px rgba(255,255,255,0.5), inset 0 0 15px rgba(255,255,255,0.3);}
-          50%{box-shadow:0 0 35px rgba(255,255,255,0.7), inset 0 0 18px rgba(255,255,255,0.4);}
-        }
-      `}
-      </style>
-<style>{`
-  @keyframes floatUp {0%{opacity:1;transform:translateY(0) rotate(0deg)}100%{opacity:0;transform:translateY(-50px) rotate(360deg)}}
-  @keyframes softPulse {
-    0%,100%{box-shadow:0 0 25px rgba(255,255,255,0.5), inset 0 0 15px rgba(255,255,255,0.3);}
-    50%{box-shadow:0 0 35px rgba(255,255,255,0.7), inset 0 0 18px rgba(255,255,255,0.4);}
-  }
-
-  /* ریسپانسیو موبایل */
-  @media (max-width: 768px) {
-    div[style*="display:flex"][style*="marginTop:80px"] {
-      flex-direction: column !important;
-      align-items: center !important;
-      gap: 20px !important;
-    }
-    div[style*="flex: 0 0 400px"] {
-      flex: 1 !important;
-      height: auto !important;
-      width: 80% !important;
-    }
-    div[style*="gridTemplateColumns:"] {
-      grid-template-columns: repeat(3, 60px) !important;
-      gap: 10px !important;
-    }
-    div[style*="fontSize:'2.3rem'"] { font-size: 1.8rem !important; }
-    div[style*="fontSize:'1.5rem'"] { font-size: 1.2rem !important; padding: 10px 18px !important; }
-    div[style*="width:'68px'"] { width: 55px !important; height: 55px !important; font-size: 1.2rem !important; }
-    div[style*="position:'absolute'"][style*="bottom:'15px'"] { width: 80px !important; height: 80px !important; }
-  }
-`}</style>
-
-
+      <style>{`
+        @keyframes floatUp {0%{opacity:1;transform:translateY(0) rotate(0deg)}100%{opacity:0;transform:translateY(-50px) rotate(360deg)}}
+        @keyframes softPulse {0%,100%{box-shadow:0 0 25px rgba(255,255,255,0.5), inset 0 0 15px rgba(255,255,255,0.3);}50%{box-shadow:0 0 35px rgba(255,255,255,0.7), inset 0 0 18px rgba(255,255,255,0.4);}}
+      `}</style>
     </div>
   );
 }
