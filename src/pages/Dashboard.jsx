@@ -109,17 +109,21 @@ export default function Dashboard({ darkMode, setDarkMode }) {
 
         {/* Tools Cards Row */}
         <div className="relative flex flex-wrap justify-center gap-5 w-full max-w-5xl mb-8">
-          {tools.map(tool => (
-            <ToolCard
-              key={tool.key}
-              toolKey={tool.key}
-              {...tool}
-              toolLang={toolLangs[tool.key]}
-              setToolLang={(lang) => setToolLanguage(tool.key, lang)}
-              activeTool={activeTool}
-              setActiveTool={setActiveTool}
-            />
-          ))}
+         {tools.map(tool => {
+  const { key, ...rest } = tool;  
+
+  return (
+    <ToolCard
+      key={key}                    
+      toolKey={key}
+      {...rest}                  
+      toolLang={toolLangs[key]}
+      setToolLang={(lang) => setToolLanguage(key, lang)}
+      activeTool={activeTool}
+      setActiveTool={setActiveTool}
+    />
+  );
+})}
 
           {/* Modal */}
           {activeTool && (

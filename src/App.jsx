@@ -6,7 +6,7 @@ import { LanguageProvider } from "./contexts/LanguageContext";
 import Dashboard from "./pages/Dashboard";
 import GamesPage from "./pages/GamesPage";
 import GamePage from "./pages/GamePage";
-import StoriesPage from "./pages/StoriesPage"; // ✅ صفحه جدید
+import StoriesPage from "./pages/StoriesPage";
 
 // Blogs
 import BlogEnglish from "./pages/BlogEnglish";
@@ -39,17 +39,20 @@ function App() {
             path="/"
             element={<Dashboard darkMode={darkMode} setDarkMode={setDarkMode} />}
           />
+
           <Route
             path="/games"
             element={<GamesPage darkMode={darkMode} setDarkMode={setDarkMode} />}
           />
+
           <Route
             path="/game/:id"
             element={<GamePage darkMode={darkMode} setDarkMode={setDarkMode} />}
           />
+
           <Route
             path="/stories"
-            element={<StoriesPage darkMode={darkMode} setDarkMode={setDarkMode} />} // ✅ مسیر جدید
+            element={<StoriesPage darkMode={darkMode} setDarkMode={setDarkMode} />}
           />
 
           {/* Blogs */}
@@ -67,14 +70,17 @@ function App() {
             path="/privacy"
             element={<PrivacyPolicy darkMode={darkMode} setDarkMode={setDarkMode} />}
           />
+
           <Route
             path="/terms"
             element={<TermsOfService darkMode={darkMode} setDarkMode={setDarkMode} />}
           />
+
           <Route
             path="/about"
             element={<AboutUs darkMode={darkMode} setDarkMode={setDarkMode} />}
           />
+
           <Route
             path="/contact"
             element={<ContactUs darkMode={darkMode} setDarkMode={setDarkMode} />}
